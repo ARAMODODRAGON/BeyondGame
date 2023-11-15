@@ -1,12 +1,12 @@
 #include "gl_window.hpp"
 #include <SDL.h>
 #include <stdio.h>
-#include <GL\glew.h>
+#include <glew\glew.h>
 #include <stdexcept>
 
 namespace be {
 
-	gl_window::gl_window() : m_window(nullptr) {
+	gl_window::gl_window() : m_window(nullptr), m_glContext(nullptr) {
 
 		// initialize
 		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
@@ -35,7 +35,7 @@ namespace be {
 
 		// check if window was created
 		if (!m_window) {
-			printf("Failed to create window");
+			BE_FATAL_ERROR("Failed to create window");
 			throw std::runtime_error("Failed to create window");
 		}
 
@@ -48,7 +48,7 @@ namespace be {
 		// check if it was created
 		GLenum error = glewInit();
 		if (error != GLEW_OK) {
-			printf("Failed to initialize GLEW\n");
+			BE_FATAL_ERROR("Failed to initialize GLEW\n");
 			throw std::runtime_error("Failed to initialize GLEW");
 		}
 
@@ -64,6 +64,17 @@ namespace be {
 
 		SDL_Quit();
 
+	}
+
+	void gl_window::clear_screen(const glm::vec4& color) {
+		// clear screen
+		glClearColor(color.r, color.g, color.b, color.a);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
+
+	void gl_window::swap_buffers() {
+		// swap buffers
+		SDL_GL_SwapWindow(m_window);
 	}
 
 	void gl_window::poll_events() {

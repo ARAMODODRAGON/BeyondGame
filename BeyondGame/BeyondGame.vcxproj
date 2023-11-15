@@ -72,12 +72,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)BeyondEngine;C:\GameDev\SDL include;C:\GameDev\glew;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)BeyondEngine;C:\GameDev\SDL include;C:\GameDev\glew;C:\GameDev\glm;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Documents\`Projects\BeyondGame\Debug;C:\GameDev\SDL include;C:\GameDev\glew;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)BeyondEngine;C:\GameDev\SDL include;C:\GameDev\glew;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)BeyondEngine;C:\GameDev\SDL include;C:\GameDev\glew;C:\GameDev\glm;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Documents\`Projects\BeyondGame\Debug;C:\GameDev\SDL include;C:\GameDev\glew;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
