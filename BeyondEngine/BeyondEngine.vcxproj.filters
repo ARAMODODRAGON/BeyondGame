@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="be\core\gl_window.hpp">
+    <ClInclude Include="be\core\window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="be\common.hpp">
@@ -30,27 +30,39 @@
     <ClInclude Include="be\dependencies\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="be\core\game_context.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="be\core\logger.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="be\content\shader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="be\objects\object.hpp">
+    <ClInclude Include="be\object.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="be\core\game_handler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="be\object2d.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="be\graphics2d\sprite_renderer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="be\graphics2d\renderer2d.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="be\game_manager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="be\core\doml.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="be\core\gl_window.cpp">
+    <ClCompile Include="be\core\window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="be\content\texture2d.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="be\core\game_context.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="be\core\logger.cpp">
@@ -59,7 +71,13 @@
     <ClCompile Include="be\content\shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="be\objects\object.cpp">
+    <ClCompile Include="be\object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="be\core\game_handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="be\object2d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

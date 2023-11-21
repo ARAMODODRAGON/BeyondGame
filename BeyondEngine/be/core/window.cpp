@@ -1,12 +1,13 @@
-#include "gl_window.hpp"
+#include "window.hpp"
 #include <SDL.h>
 #include <stdio.h>
 #include <glew\glew.h>
 #include <stdexcept>
+#include "game_handler.hpp"
 
 namespace be {
 
-	gl_window::gl_window() : m_window(nullptr), m_glContext(nullptr) {
+	window::window() : m_window(nullptr), m_glContext(nullptr) {
 
 		// initialize
 		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
@@ -57,7 +58,7 @@ namespace be {
 
 	}
 
-	gl_window::~gl_window() {
+	window::~window() {
 		// close out
 		SDL_DestroyWindow(m_window);
 		m_window = nullptr;
@@ -66,22 +67,23 @@ namespace be {
 
 	}
 
-	void gl_window::clear_screen(const glm::vec4& color) {
+	void window::clear_screen(const glm::vec4& color) {
 		// clear screen
 		glClearColor(color.r, color.g, color.b, color.a);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void gl_window::swap_buffers() {
+	void window::swap_buffers() {
 		// swap buffers
 		SDL_GL_SwapWindow(m_window);
 	}
 
-	void gl_window::poll_events() {
+	void window::poll_events() {
 		SDL_Event e;
 		while (SDL_PollEvent(&e)) {
 			switch (e.type) {
 				case SDL_QUIT:
+					game_handler::quit();
 					break;
 				default: break;
 			}

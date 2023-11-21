@@ -27,7 +27,7 @@ namespace be {
 		stbi_uc* pixels = stbi_load(filepath.c_str(), &width, &height, &channels, tryformat);
 
 		if (pixels == nullptr) {
-			//("invalid filepath '" + filepath + "'");
+			BE_ERROR("invalid filepath '" + filepath + "'");
 			return;
 		}
 

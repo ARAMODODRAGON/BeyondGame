@@ -1,16 +1,17 @@
 #ifndef BOE_GL_WINDOW_HPP
 #define BOE_GL_WINDOW_HPP
 #include "../common.hpp"
+#include "../object.hpp"
 
 struct SDL_Window;
 
 namespace be {
 
-	class gl_window final {
+	class window final : public object {
 	public:
 
-		gl_window();
-		~gl_window();
+		window();
+		~window();
 
 		void clear_screen(const glm::vec4& color);
 

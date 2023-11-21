@@ -1,12 +1,16 @@
 #include <SDL.h>
-#include <iostream>
-#include <be\core\game_context.hpp>
-
-static bool isRunning = true;
+#include "BeyondGameManager.hpp"
 
 int main(int argc, char** argv) {
 
-	be::game_context::get()->run();
+	// create
+	be::game_handler* handler = new be::game_handler();
+	handler->create_game_manager<BeyondGameManager>();
 
+	// run
+	handler->run();
+
+	// delete
+	delete handler; handler = nullptr;
 	return 0;
 }

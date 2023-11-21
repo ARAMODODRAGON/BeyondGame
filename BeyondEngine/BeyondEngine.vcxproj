@@ -22,20 +22,26 @@
     <ClInclude Include="be\common.hpp" />
     <ClInclude Include="be\content\shader.hpp" />
     <ClInclude Include="be\content\texture2d.hpp" />
+    <ClInclude Include="be\core\doml.hpp" />
     <ClInclude Include="be\core\function.hpp" />
-    <ClInclude Include="be\core\game_context.hpp" />
-    <ClInclude Include="be\core\gl_window.hpp" />
+    <ClInclude Include="be\core\game_handler.hpp" />
+    <ClInclude Include="be\core\window.hpp" />
     <ClInclude Include="be\core\logger.hpp" />
     <ClInclude Include="be\dependencies\stb_image.h" />
-    <ClInclude Include="be\objects\object.hpp" />
+    <ClInclude Include="be\game_manager.hpp" />
+    <ClInclude Include="be\graphics2d\renderer2d.hpp" />
+    <ClInclude Include="be\graphics2d\sprite_renderer.hpp" />
+    <ClInclude Include="be\object.hpp" />
+    <ClInclude Include="be\object2d.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="be\content\shader.cpp" />
     <ClCompile Include="be\content\texture2d.cpp" />
-    <ClCompile Include="be\core\game_context.cpp" />
-    <ClCompile Include="be\core\gl_window.cpp" />
+    <ClCompile Include="be\core\game_handler.cpp" />
+    <ClCompile Include="be\core\window.cpp" />
     <ClCompile Include="be\core\logger.cpp" />
-    <ClCompile Include="be\objects\object.cpp" />
+    <ClCompile Include="be\object.cpp" />
+    <ClCompile Include="be\object2d.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
