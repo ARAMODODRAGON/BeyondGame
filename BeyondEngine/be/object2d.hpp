@@ -48,11 +48,16 @@ namespace be {
 		// sets the local scale
 		void set_local_scale(const glm::vec2& scale);
 
+		// gets the transformation matrix
+		const glm::mat3 get_transform() const;
+
 	private:
 		glm::vec2 m_position;
 		float m_rotation;
 		glm::vec2 m_scale;
+		mutable glm::mat3 m_transform;
 		mutable object2d* m_parent2d;
+		mutable bool m_updateTransform;
 		mutable bool m_checkonce : 1;
 		object2d* _get_parent2d() const;
 	};

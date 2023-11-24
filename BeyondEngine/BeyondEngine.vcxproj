@@ -20,26 +20,29 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="be\common.hpp" />
-    <ClInclude Include="be\content\shader.hpp" />
-    <ClInclude Include="be\content\texture2d.hpp" />
-    <ClInclude Include="be\core\doml.hpp" />
+    <ClInclude Include="be\core\content\shader.hpp" />
+    <ClInclude Include="be\core\content\texture2d.hpp" />
     <ClInclude Include="be\core\function.hpp" />
     <ClInclude Include="be\core\game_handler.hpp" />
+    <ClInclude Include="be\core\rect.hpp" />
     <ClInclude Include="be\core\window.hpp" />
     <ClInclude Include="be\core\logger.hpp" />
     <ClInclude Include="be\dependencies\stb_image.h" />
     <ClInclude Include="be\game_manager.hpp" />
     <ClInclude Include="be\graphics2d\renderer2d.hpp" />
+    <ClInclude Include="be\graphics2d\sprite_batch.hpp" />
     <ClInclude Include="be\graphics2d\sprite_renderer.hpp" />
     <ClInclude Include="be\object.hpp" />
     <ClInclude Include="be\object2d.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="be\content\shader.cpp" />
-    <ClCompile Include="be\content\texture2d.cpp" />
+    <ClCompile Include="be\core\content\shader.cpp" />
+    <ClCompile Include="be\core\content\texture2d.cpp" />
     <ClCompile Include="be\core\game_handler.cpp" />
+    <ClCompile Include="be\core\rect.cpp" />
     <ClCompile Include="be\core\window.cpp" />
     <ClCompile Include="be\core\logger.cpp" />
+    <ClCompile Include="be\graphics2d\sprite_batch.cpp" />
     <ClCompile Include="be\object.cpp" />
     <ClCompile Include="be\object2d.cpp" />
   </ItemGroup>
@@ -97,12 +100,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\GameDev\SDL include;C:\GameDev\glew;C:\GameDev\lua;C:\GameDev\glm;$(IncludePath)</IncludePath>
+    <IncludePath>C:\GameDev\SDL include;C:\GameDev\glew;C:\GameDev\rapidjson-1.1.0\include;C:\GameDev\glm;$(IncludePath)</IncludePath>
     <LibraryPath>C:\GameDev\SDL include;C:\GameDev\glew;C:\GameDev\lua;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\GameDev\SDL include;C:\GameDev\glew;C:\GameDev\lua;C:\GameDev\glm;$(IncludePath)</IncludePath>
+    <IncludePath>C:\GameDev\SDL include;C:\GameDev\glew;C:\GameDev\rapidjson-1.1.0\include;C:\GameDev\glm;$(IncludePath)</IncludePath>
     <LibraryPath>C:\GameDev\SDL include;C:\GameDev\glew;C:\GameDev\lua;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
