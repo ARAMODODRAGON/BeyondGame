@@ -1,5 +1,4 @@
 #include "shader.hpp"
-#include "../core/logger.hpp"
 #include <fstream>
 #include <glew/glew.h>
 #include <unordered_map>

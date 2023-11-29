@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include <list>
 #include <inttypes.h>
 #include <memory>
@@ -14,6 +15,7 @@
 
 #include "core\function.hpp"
 #include "core\logger.hpp"
+#include "core\input.hpp"
 
 namespace be {
 
@@ -33,6 +35,10 @@ namespace be {
 	template<typename T> using weak = std::weak_ptr<T>;
 
 }
+
+// color macros
+#define BE_COLOR_BLACK glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)
+#define BE_COLOR_WHITE glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)
 
 // deletes the copy contructor/operator
 #define BE_NO_COPY(Type)				\

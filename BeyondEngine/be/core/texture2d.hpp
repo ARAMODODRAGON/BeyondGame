@@ -31,7 +31,6 @@ namespace be {
 
 	class texture2d final {
 		BE_NO_COPY(texture2d);
-		BE_NO_MOVE(texture2d);
 	public:
 
 		// null texture object
@@ -39,6 +38,9 @@ namespace be {
 
 		// loads a texture 
 		texture2d(const std::string& filepath, const textureopts& options = textureopts());
+
+		texture2d(texture2d&& other);
+		texture2d& operator=(texture2d&& other);
 
 		// deletes a texture
 		~texture2d();
