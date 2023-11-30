@@ -26,6 +26,7 @@
     <ClInclude Include="be\core\texture2d.hpp" />
     <ClInclude Include="be\core\function.hpp" />
     <ClInclude Include="be\core\bounds2d.hpp" />
+    <ClInclude Include="be\core\timer.hpp" />
     <ClInclude Include="be\core\window.hpp" />
     <ClInclude Include="be\core\logger.hpp" />
     <ClInclude Include="be\dependencies\stb_image.h" />
@@ -36,10 +37,10 @@
     <ClCompile Include="be\core\input.cpp" />
     <ClCompile Include="be\core\shader.cpp" />
     <ClCompile Include="be\core\texture2d.cpp" />
+    <ClCompile Include="be\core\timer.cpp" />
     <ClCompile Include="be\core\window.cpp" />
     <ClCompile Include="be\core\logger.cpp" />
     <ClCompile Include="be\core\graphics\sprite_batch.cpp" />
-    <ClCompile Include="be\game.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

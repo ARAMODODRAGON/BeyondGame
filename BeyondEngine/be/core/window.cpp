@@ -47,7 +47,7 @@ namespace be {
 		m_glContext = SDL_GL_CreateContext(m_window);
 
 		// setup
-		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
+		//SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
 
 		// check if it was created
 		GLenum error = glewInit();
@@ -55,6 +55,16 @@ namespace be {
 			BE_FATAL_ERROR("Failed to initialize GLEW\n");
 			throw std::runtime_error("Failed to initialize GLEW");
 		}
+
+		// enable blending
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		
+
+		// print graphics card and opengl version
+		BE_LOG("Graphics card: " + std::string(reinterpret_cast<const char*>(glGetString(GL_RENDERER))));
+		BE_LOG("OpenGL version: " + std::string(reinterpret_cast<const char*>(glGetString(GL_VERSION))));
+
 	}
 
 	window::~window() {

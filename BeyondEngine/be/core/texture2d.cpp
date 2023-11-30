@@ -141,6 +141,14 @@ namespace be {
 
 	texture2d::operator bool() const { return is_valid(); }
 
+	bool texture2d::operator==(const texture2d& other) const {
+		return m_id == other.m_id;
+	}
+
+	bool texture2d::operator!=(const texture2d& other) const {
+		return m_id != other.m_id;
+	}
+
 	uint32 texture2d::get_id() const {
 		return m_id;
 	}

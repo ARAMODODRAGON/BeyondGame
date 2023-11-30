@@ -51,6 +51,12 @@ namespace be {
 		// checks if this is a valid texture
 		operator bool() const;
 
+		// check if this texture is the same as the other
+		bool operator==(const texture2d& other) const;
+
+		// check if this texture is not the same as the other
+		bool operator!=(const texture2d& other) const;
+
 		// returns the texture ID
 		uint32 get_id() const;
 

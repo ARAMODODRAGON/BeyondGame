@@ -51,6 +51,9 @@
     <ClInclude Include="be\core\graphics\vertex_buffer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="be\core\timer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="be\core\window.cpp">
@@ -68,10 +71,10 @@
     <ClCompile Include="be\core\graphics\sprite_batch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="be\game.cpp">
+    <ClCompile Include="be\core\input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="be\core\input.cpp">
+    <ClCompile Include="be\core\timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

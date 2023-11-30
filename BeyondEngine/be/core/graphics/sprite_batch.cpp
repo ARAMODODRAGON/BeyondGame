@@ -60,7 +60,7 @@ namespace be {
 		: m_maxTextureUnits(0), m_vao(0), m_vbo(0), m_bufferSize(0), m_isDirty(true) {
 
 		// get max texture units
-		GLint maxTextureUnits;
+		GLint maxTextureUnits = -1;
 		glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureUnits);
 		m_maxTextureUnits = maxTextureUnits;
 
@@ -70,6 +70,7 @@ namespace be {
 			std::string source = sprbatchShaderSrc[0] + std::to_string(maxTextureUnits) + sprbatchShaderSrc[1];
 			m_shader.reset(new shader(source, shader::IS_SOURCE));
 		}
+		//m_transformUniformLocation = glGetUniformLocation(*m_shader, "u_transform");
 
 		// generate vertex array
 		glGenVertexArrays(1, &m_vao);
@@ -115,7 +116,7 @@ namespace be {
 	}
 
 	void sprite_batch::draw(const glm::mat4& view) {
-		// dont draw if no batches
+		// dont draw if no batches (no batches?)
 		if (m_batches.size() == 0) return;
 
 		size_t offset = 0;
@@ -126,7 +127,7 @@ namespace be {
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 
 		// set uniforms
-		glUniform1fv(1, sizeof(glm::mat4), &(view[0][0]));
+		glUniformMatrix4fv(1, 1, GL_FALSE, &(view[0].x));
 
 		// if we need to update vbo data
 		if (m_isDirty) {
@@ -152,9 +153,9 @@ namespace be {
 			for (size_t i = 0; i < m_batches.size(); i++) {
 				auto& [textures, verts] = m_batches[i];
 				// fill part of buffer
-				glBufferSubData(GL_ARRAY_BUFFER, offset, verts.size(), verts.data());
+				glBufferSubData(GL_ARRAY_BUFFER, offset, verts.size() * sizeof(batchvert), verts.data());
 				// move offset
-				offset += m_batches[i].verticies.size();
+				offset += m_batches[i].verticies.size() * sizeof(batchvert);
 			}
 
 			// set this to make sure we dont regenerate the batch if we dont need to
@@ -180,7 +181,13 @@ namespace be {
 		}
 	}
 
-	void sprite_batch::push(const bounds2d bounds, texture2d* texture, const glm::vec4& color, const bounds2d* textureBounds) {
+	void sprite_batch::push(
+		const bounds2d& bounds,
+		const glm::vec4& color,
+		texture2d* texture,
+		const bounds2d* textureBounds,
+		const glm::mat4* transform
+	) {
 		// verts are in clockwise order
 		// [1]---[2]
 		//  |   / |
@@ -203,6 +210,13 @@ namespace be {
 		verts[1].position = glm::vec2(bounds.left, bounds.top);
 		verts[2].position = bounds.max;
 		verts[3].position = glm::vec2(bounds.right, bounds.bottom);
+
+		// transform based on transformation matrix
+		if (transform != nullptr) {
+			for (size_t i = 0; i < vertSize; i++) {
+				verts[i].position = glm::vec2((*transform) * glm::vec4(verts[i].position, 0.0f, 1.0f));
+			}
+		}
 
 		// set default uvs
 		if (textureBounds == nullptr) {
@@ -269,13 +283,30 @@ namespace be {
 	sprite_batch::batch* sprite_batch::get_batch(texture2d* texture) {
 		// we assume a batch will be updated so the vbo will need to update
 		m_isDirty = true;
-		// if no matching batch was found then create new and add to lookup
-		if (!m_lookuptable.contains(*texture)) {
+
+		// if there are no batches add one at least
+		if (m_batches.size() == 0) {
 			m_batches.emplace_back();
-			m_lookuptable[texture->get_id()] = (m_batches.size() - 1);
+			m_lookuptable[nullptr] = 0; // this is so null textures used the first batch regardless of texture slots
+		}
+
+		// check if no batch contains texture (if nullptr garunteed to skip)
+		if (!m_lookuptable.contains(texture)) {
+			// check for each batch if any has any texture slots available
+			for (size_t i = 0; i < m_batches.size(); i++) {
+				if (m_batches[i].textures.size() < m_maxTextureUnits) {
+					m_batches[i].textures.push_back(texture); // push texture
+					m_lookuptable[texture] = i; // create table entry
+					return &(m_batches[m_lookuptable[texture]]);
+				}
+			}
+			// if no slots were available then we create a new batch
+			m_batches.emplace_back(); // add
+			m_batches.back().textures.push_back(texture); // push texture
+			m_lookuptable[texture] = m_batches.size() - 1; // create table entry
 		}
 		// return the batch
-		return &(m_batches[m_lookuptable[*texture]]);
+		return &(m_batches[m_lookuptable[texture]]);
 	}
 
 	uint32 sprite_batch::get_index(batch* b, texture2d* texture) {

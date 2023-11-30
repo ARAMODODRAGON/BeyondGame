@@ -31,11 +31,17 @@ namespace be {
 		void draw(const glm::mat4& view);
 
 		// pushes a sprite into the batch
-		void push(const bounds2d bounds, texture2d* texture, const glm::vec4& color, const bounds2d* textureBounds);
+		void push(
+			const bounds2d& bounds,
+			const glm::vec4& color,
+			texture2d* texture = nullptr,
+			const bounds2d* textureBounds = nullptr,
+			const glm::mat4* transform = nullptr
+		);
 
 		// pushes a set of verticies onto the batch with an accociated texture2d
 		// verticies are drawn as a series of triangles so size() must be a multiple of 3
-		void push(const std::vector<sprite_vertex>& verticies, texture2d* texture);
+		void push(const std::vector<sprite_vertex>& verticies, texture2d* texture = nullptr);
 
 	private:
 
@@ -53,7 +59,7 @@ namespace be {
 
 		shared<shader> m_shader;
 		std::vector<batch> m_batches;
-		std::unordered_map<uint32, uint32> m_lookuptable;
+		std::unordered_map<texture2d*, uint32> m_lookuptable;
 
 		uint32 m_maxTextureUnits;
 		uint32 m_vao, m_vbo;
