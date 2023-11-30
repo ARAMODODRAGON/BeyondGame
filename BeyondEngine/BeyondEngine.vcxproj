@@ -96,8 +96,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\GameDev\SDL include;D:\GameDev\glew;D:\GameDev\rapidjson-1.1.0\include;D:\GameDev\glm;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\GameDev\SDL include;C:\GameDev\glew;C:\GameDev\lua;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\GameDev\SDL include;D:\GameDev\glew;D:\GameDev\rapidjson-1.1.0\include;D:\GameDev\glm;D:\GameDev\lua-5.4.6\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\GameDev\SDL include;C:\GameDev\glew;C:\GameDev\lua;D:\GameDev\lua-5.4.6\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

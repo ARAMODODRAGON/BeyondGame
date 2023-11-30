@@ -2,6 +2,7 @@
 #include "be\game.hpp"
 #include "be\core\graphics\sprite_batch.hpp"
 #include <glm\gtc\matrix_transform.hpp>
+#include <lua.hpp>
 
 #define CAM_WIDTH 1280
 #define CAM_HEIGHT 720
@@ -23,37 +24,6 @@ public:
 		// batch & view
 		m_batch = new be::sprite_batch();
 		m_view = glm::ortho(CAM_WIDTH * -0.5f, CAM_WIDTH * 0.5f, CAM_HEIGHT * -0.5f, CAM_HEIGHT * 0.5f);
-
-		// create some objects
-		constexpr float objSize = 10.0f;
-		be::bounds2d standard(-objSize, -objSize, objSize, objSize);
-		Object o;
-		constexpr size_t objCount = 100000;
-		m_objects.reserve(objCount);
-		for (size_t i = 0; i < objCount; i++) {
-			o.position.x = random_between(CAM_WIDTH * -0.5f, CAM_WIDTH * 0.5f);
-			o.position.y = random_between(CAM_HEIGHT * -0.5f, CAM_HEIGHT * 0.5f);
-			o.bounds = standard;
-			o.color.a = 1.0f;
-			o.color.r = random_between(0.1f, 1.0f);
-			o.color.g = random_between(0.1f, 1.0f);
-			o.color.b = random_between(0.1f, 1.0f);
-			m_objects.push_back(o);
-		}
-
-		m_batch->clear();
-
-		// fill batch
-		for (auto& obj : m_objects) {
-			glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(obj.position, 0.0f));
-			m_batch->push(
-				obj.bounds,
-				obj.color,
-				nullptr,
-				nullptr,
-				&transform
-			);
-		}
 
 	}
 
@@ -80,8 +50,14 @@ public:
 				t0 -= 1.0f;
 				BE_LOG("current framerate: " + std::to_string(1.0f / time.get()));
 			}
+			step(time.get());
 
 			// begin draw
+			m_batch->clear();
+
+			// push objects
+			draw();
+
 			// draw batch
 			m_batch->draw(m_view);
 
@@ -89,6 +65,14 @@ public:
 			w->swap_buffers();
 			time.wait_for_frame();
 		}
+	}
+
+	void step(float delta) {
+
+	}
+
+	void draw() {
+
 	}
 
 private:
@@ -99,7 +83,15 @@ private:
 
 int main(int argc, char** argv) {
 
-	be::run_game<BeyondGame>(glm::uvec2(1280, 720), "Demo");
+	//be::run_game<BeyondGame>(glm::uvec2(1280, 720), "Demo");
+
+	lua_State* L = luaL_newstate(); 
+	luaL_dostring(L, " x = 42");
+	// Get global variable called 'x' and push it to the start of the Lua stack.
+	lua_getglobal(L, "x");
+	lua_Number x = lua_tonumber(L, 1); // Get the value at the top of the stack.
+	BE_LOG("Lua says " + std::to_string(x));
+	lua_close(L); // Deallocate the LUA state.
 
 	return 0;
 }
