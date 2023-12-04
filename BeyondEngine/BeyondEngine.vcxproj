@@ -22,6 +22,7 @@
     <ClInclude Include="be\common.hpp" />
     <ClInclude Include="be\core\graphics\vertex_buffer.hpp" />
     <ClInclude Include="be\core\input.hpp" />
+    <ClInclude Include="be\core\scripting\lua_script.hpp" />
     <ClInclude Include="be\core\shader.hpp" />
     <ClInclude Include="be\core\texture2d.hpp" />
     <ClInclude Include="be\core\function.hpp" />
@@ -35,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="be\core\input.cpp" />
+    <ClCompile Include="be\core\scripting\lua_script.cpp" />
     <ClCompile Include="be\core\shader.cpp" />
     <ClCompile Include="be\core\texture2d.cpp" />
     <ClCompile Include="be\core\timer.cpp" />

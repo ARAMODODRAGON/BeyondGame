@@ -26,8 +26,8 @@ namespace be {
 
 #define BE_LOG(msg) \
 	::be::logger::log(msg, __FILE__, __LINE__)
-#define BE_TRACE(msg) \
-	::be::logger::trace(msg, __FILE__, __LINE__)
+//#define BE_TRACE(msg) \
+//	::be::logger::trace(msg, __FILE__, __LINE__)
 #define BE_WARNING(msg) \
 	::be::logger::warning(msg, __FILE__, __LINE__)
 #define BE_ERROR(msg) \

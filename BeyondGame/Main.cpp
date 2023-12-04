@@ -1,21 +1,11 @@
 #include <SDL.h>
 #include "be\game.hpp"
 #include "be\core\graphics\sprite_batch.hpp"
-#include <glm\gtc\matrix_transform.hpp>
+#include "be\core\scripting\lua_script.hpp"
 #include <lua.hpp>
 
 #define CAM_WIDTH 1280
 #define CAM_HEIGHT 720
-
-struct Object {
-	be::bounds2d bounds;
-	glm::vec2 position;
-	glm::vec4 color;
-};
-
-static float random_between(float min, float max) {
-	return (max - min) * (float(rand()) / float(RAND_MAX)) + min;
-}
 
 class BeyondGame final : public be::igame {
 public:
@@ -78,20 +68,30 @@ public:
 private:
 	be::sprite_batch* m_batch;
 	glm::mat4 m_view;
-	std::vector<Object> m_objects;
 };
 
 int main(int argc, char** argv) {
 
 	//be::run_game<BeyondGame>(glm::uvec2(1280, 720), "Demo");
+	be::lua_script* script0 = new be::lua_script("Scripts/Demo.lua");
+	be::lua_script* script1 = new be::lua_script("Scripts/Demo.lua");
 
-	lua_State* L = luaL_newstate(); 
-	luaL_dostring(L, " x = 42");
-	// Get global variable called 'x' and push it to the start of the Lua stack.
-	lua_getglobal(L, "x");
-	lua_Number x = lua_tonumber(L, 1); // Get the value at the top of the stack.
-	BE_LOG("Lua says " + std::to_string(x));
-	lua_close(L); // Deallocate the LUA state.
+	auto* state = be::lua_script::get_state();
 
+	lua_getglobal(state, script0->env());
+	lua_pushnumber(state, 5);
+	lua_setfield(state, -2, "value");
+	lua_pop(state, 1);
+
+	lua_getglobal(state, script1->env());
+	lua_pushnumber(state, 10);
+	lua_setfield(state, -2, "value");
+	lua_pop(state, 1);
+
+	script0->call("foo");
+	script1->call("foo");
+
+	delete script0;
+	delete script1;
 	return 0;
 }
