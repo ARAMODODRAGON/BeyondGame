@@ -49,6 +49,7 @@ namespace be {
 		template<typename RetTy, typename ClassTy, typename... ArgsTy>
 		struct func_sig<RetTy(ClassTy::*)(ArgsTy...)> {
 			using sig_t = RetTy(ClassTy::*)(ArgsTy...);
+			using simple_t = RetTy(*)(ArgsTy...);
 			using ret_ty = RetTy;
 			using class_ty = ClassTy;
 		};
@@ -152,6 +153,10 @@ namespace be {
 			else					return m_invokeable->invoke(args...);
 		}
 
+		void* instance() const {
+			return m_instance;
+		}
+
 	private:
 
 		struct _invokable {
@@ -237,6 +242,11 @@ namespace be {
 
 		event& operator-=(const function& f) {
 			m_listeners.remove_if([f](auto& func) { return func == f; });
+			return *this;
+		}
+
+		event& operator-=(const void* instance) {
+			m_listeners.remove_if([instance](auto& func) { return func.instance() == instance; });
 			return *this;
 		}
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -19,30 +19,45 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="be\bitmask.h" />
     <ClInclude Include="be\common.hpp" />
-    <ClInclude Include="be\core\graphics\vertex_buffer.hpp" />
-    <ClInclude Include="be\core\input.hpp" />
-    <ClInclude Include="be\core\scripting\lua_script.hpp" />
-    <ClInclude Include="be\core\shader.hpp" />
-    <ClInclude Include="be\core\texture2d.hpp" />
+    <ClInclude Include="be\core\bitmask.hpp" />
     <ClInclude Include="be\core\function.hpp" />
-    <ClInclude Include="be\core\bounds2d.hpp" />
+    <ClInclude Include="be\core\input.hpp" />
+    <ClInclude Include="be\core\rect.hpp" />
+    <ClInclude Include="be\objects\camera2d.hpp" />
+    <ClInclude Include="be\objects\renderer2d.hpp" />
+    <ClInclude Include="be\objects\object2d.hpp" />
+    <ClInclude Include="be\object_registry.hpp" />
+    <ClInclude Include="be\lua_script.hpp" />
+    <ClInclude Include="be\content\shader.hpp" />
+    <ClInclude Include="be\content\texture2d.hpp" />
+    <ClInclude Include="be\function.hpp" />
+    <ClInclude Include="be\rect.hpp" />
+    <ClInclude Include="be\objects\spriterenderer.hpp" />
     <ClInclude Include="be\core\timer.hpp" />
     <ClInclude Include="be\core\window.hpp" />
-    <ClInclude Include="be\core\logger.hpp" />
+    <ClInclude Include="be\core\debug.hpp" />
     <ClInclude Include="be\dependencies\stb_image.h" />
-    <ClInclude Include="be\game.hpp" />
-    <ClInclude Include="be\core\graphics\sprite_batch.hpp" />
+    <ClInclude Include="be\core\game.hpp" />
+    <ClInclude Include="be\graphics2d\sprite_batch.hpp" />
+    <ClInclude Include="be\physics\physics_scene2d.hpp" />
+    <ClInclude Include="be\physics\rtree.h" />
+    <ClInclude Include="be\physics\physics2d.hpp" />
+    <ClInclude Include="be\reflection\type_hash.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="be\core\input.cpp" />
-    <ClCompile Include="be\core\scripting\lua_script.cpp" />
-    <ClCompile Include="be\core\shader.cpp" />
-    <ClCompile Include="be\core\texture2d.cpp" />
+    <ClCompile Include="be\objects\camera2d.cpp" />
+    <ClCompile Include="be\objects\renderer2d.cpp" />
+    <ClCompile Include="be\lua_script.cpp" />
+    <ClCompile Include="be\content\shader.cpp" />
+    <ClCompile Include="be\content\texture2d.cpp" />
+    <ClCompile Include="be\objects\spriterenderer.cpp" />
     <ClCompile Include="be\core\timer.cpp" />
     <ClCompile Include="be\core\window.cpp" />
-    <ClCompile Include="be\core\logger.cpp" />
-    <ClCompile Include="be\core\graphics\sprite_batch.cpp" />
+    <ClCompile Include="be\core\debug.cpp" />
+    <ClCompile Include="be\graphics2d\sprite_batch.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

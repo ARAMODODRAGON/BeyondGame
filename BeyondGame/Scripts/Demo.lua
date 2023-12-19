@@ -1,6 +1,5 @@
 
 
-
-function foo() 
-    print("result = " .. value)
+function callobjectfunction()
+    printvalue()
 end

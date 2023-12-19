@@ -3,6 +3,84 @@
 //#define CODECASESTR(e, c) case e::c: return #c
 
 namespace be {
+	size_t input::index(const char* cstr) {
+		auto it = _indexes.find(cstr);
+		if (it != _indexes.end()) return it->second;
+		return -1;
+	}
+	bool input::button(const char* cstr) {
+		return button(index(cstr));
+	}
+
+	bool input::button_down(const char* cstr) {
+		return button_down(index(cstr));
+	}
+
+	bool input::button_up(const char* cstr) {
+		return button_up(index(cstr));
+	}
+
+	bool input::button(size_t index) {
+		if (index == -1 || index >= __BUTTON_COUNT) return false;
+		return _buttons[index].held;
+	}
+
+	bool input::button_down(size_t index) {
+		if (index == -1 || index >= __BUTTON_COUNT) return false;
+		return _buttons[index].held && _buttons[index].changed;
+	}
+
+	bool input::button_up(size_t index) {
+		if (index == -1 || index >= __BUTTON_COUNT) return false;
+		return !(_buttons[index].held) && _buttons[index].changed;
+	}
+
+	float input::axis(const char* cstr) {
+		return axis(index(cstr));
+	}
+
+	float input::axis(size_t index) {
+		if (index == -1 || index >= __AXIS_COUNT) return false;
+		return _axis[index];
+	}
+
+
+	void input::__reset() {
+		if (_indexes.size() == 0) {
+			for (size_t i = 0; i < __BUTTON_COUNT; i++) {
+				_indexes.emplace(__BUTTONS[i], i);
+			}
+			for (size_t i = 0; i < __AXIS_COUNT; i++) {
+				_indexes.emplace(__BUTTONS[i], i + __BUTTON_COUNT);
+			}
+		}
+
+		for (size_t i = 0; i < __BUTTON_COUNT; i++) {
+			_buttons[i].changed = false;
+		}
+		for (size_t i = 0; i < __AXIS_COUNT; i++) {
+			_axis[i] = 0.0f;
+		}
+	}
+
+	void input::__set_button(const char* cstr, bool state) {
+		__set_button(index(cstr), state);
+	}
+
+	void input::__set_button(size_t index, bool state) {
+		_buttons[index].changed = (_buttons[index].held != state);
+		_buttons[index].held = state;
+	}
+
+	void input::__set_axis(const char* cstr, float a) {
+		__set_axis(index(cstr), a);
+	}
+
+	void input::__set_axis(size_t index, float a) {
+		_axis[index] = a;
+	}
+
+	/*
 
 	button keyboard::get(keycode code) {
 		auto& key = s_keys[static_cast<uint32>(code)];
@@ -69,5 +147,5 @@ namespace be {
 		s_scrollDir = scroll;
 	}
 
-
+	*/
 }

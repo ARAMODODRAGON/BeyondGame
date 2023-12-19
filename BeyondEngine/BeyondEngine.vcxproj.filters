@@ -21,40 +21,76 @@
     <ClInclude Include="be\common.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="be\core\function.hpp">
+    <ClInclude Include="be\function.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="be\core\texture2d.hpp">
+    <ClInclude Include="be\content\texture2d.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="be\dependencies\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="be\core\logger.hpp">
+    <ClInclude Include="be\core\debug.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="be\core\shader.hpp">
+    <ClInclude Include="be\content\shader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="be\core\bounds2d.hpp">
+    <ClInclude Include="be\rect.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="be\core\graphics\sprite_batch.hpp">
+    <ClInclude Include="be\graphics2d\sprite_batch.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="be\game.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="be\core\input.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="be\core\graphics\vertex_buffer.hpp">
+    <ClInclude Include="be\core\game.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="be\core\timer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="be\core\scripting\lua_script.hpp">
+    <ClInclude Include="be\lua_script.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="be\object_registry.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="be\objects\spriterenderer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="be\objects\object2d.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="be\objects\renderer2d.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="be\objects\camera2d.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="be\reflection\type_hash.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="be\physics\physics2d.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="be\physics\physics_scene2d.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="be\physics\rtree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="be\bitmask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="be\core\function.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="be\core\bitmask.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="be\core\input.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="be\core\rect.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -62,25 +98,34 @@
     <ClCompile Include="be\core\window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="be\core\texture2d.cpp">
+    <ClCompile Include="be\content\texture2d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="be\core\logger.cpp">
+    <ClCompile Include="be\core\debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="be\core\shader.cpp">
+    <ClCompile Include="be\content\shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="be\core\graphics\sprite_batch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="be\core\input.cpp">
+    <ClCompile Include="be\graphics2d\sprite_batch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="be\core\timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="be\core\scripting\lua_script.cpp">
+    <ClCompile Include="be\lua_script.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="be\objects\renderer2d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="be\objects\camera2d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="be\objects\spriterenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="be\core\input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

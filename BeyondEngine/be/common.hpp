@@ -1,6 +1,7 @@
 #ifndef BOE_COMMON_HPP
 #define BOE_COMMON_HPP
 
+#include <type_traits>
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -9,13 +10,16 @@
 #include <memory>
 
 #include <glm\glm.hpp>
+#include <glm\gtc\matrix_transform.hpp>
 #include <glm\gtc\quaternion.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/quaternion.hpp>
+#include <glm\gtx\quaternion.hpp>
 
 #include "core\function.hpp"
-#include "core\logger.hpp"
+#include "core\debug.hpp"
 #include "core\input.hpp"
+#include "reflection/type_hash.hpp"
+#include "core\rect.hpp"
+#include "core\bitmask.hpp"
 
 namespace be {
 

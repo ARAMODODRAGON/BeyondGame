@@ -1,31 +1,84 @@
 #include <SDL.h>
-#include "be\game.hpp"
-#include "be\core\graphics\sprite_batch.hpp"
-#include "be\core\scripting\lua_script.hpp"
+#include "be\core\game.hpp"
+#include "be\object_registry.hpp"
+#include "be\objects\renderer2d.hpp"
+#include "be\objects\camera2d.hpp"
+#include "be\objects\spriterenderer.hpp"
 #include <lua.hpp>
+#include <unordered_set>
 
 #define CAM_WIDTH 1280
 #define CAM_HEIGHT 720
 
-class BeyondGame final : public be::igame {
+class NPC final : public be::spriterenderer {
 public:
 
-	BeyondGame() : m_batch(nullptr), m_view(1.0f) {
-		// batch & view
-		m_batch = new be::sprite_batch();
-		m_view = glm::ortho(CAM_WIDTH * -0.5f, CAM_WIDTH * 0.5f, CAM_HEIGHT * -0.5f, CAM_HEIGHT * 0.5f);
+	NPC() : m_speed(1.7f) {}
+	~NPC() {}
 
+	void init() override {
+		be::spriterenderer::init();
+
+		// init sprite properties
+		set_sprite_bounds(be::rect2(glm::vec2{-10.0f, -10.0f}, glm::vec2{10.0f, 10.0f}));
+
+		// setup listeners
+		listen<&NPC::step>("step");
+	}
+
+private:
+
+	void step() {
+		glm::vec2 direction = {0.0f, 0.0f};
+
+		const bool left = be::input::button("arrow_left");
+		const bool right = be::input::button("arrow_right");
+		const bool up = be::input::button("arrow_up");
+		const bool down = be::input::button("arrow_down");
+
+		if (left != right) {
+			if (left)	direction.x = -1.0f;
+			if (right)	direction.x = 1.0f;
+		}
+
+		if (down != up) {
+			if (down)	direction.y = -1.0f;
+			if (up)		direction.y = 1.0f;
+		}
+
+		// we dont want to normalize if 0
+		if (glm::length2(direction) > 0.000001f)
+			direction = glm::normalize(direction);
+
+		glm::vec2 pos = get_position();
+		set_position(pos + (direction * m_speed));
+	}
+
+	float m_speed;
+};
+
+class BeyondGame final : public be::core::igame {
+public:
+
+	BeyondGame() : m_registry(nullptr), m_renderer2d(nullptr) {
+		// batch & view
+		m_registry = new be::object_registry();
+		m_renderer2d = m_registry->get_instance<be::graphics2d::renderer2d>();
+
+		// create objects
+		auto* camera = m_registry->create<be::camera2d>();
+		camera->set_size({CAM_WIDTH, CAM_HEIGHT});
+
+		NPC* npc = m_registry->create<NPC>();
 	}
 
 	~BeyondGame() {
-		if (m_batch) delete m_batch; m_batch = nullptr;
+		delete m_registry; m_registry = nullptr;
 	}
 
-	void mainloop(be::window* w) override {
-		// initialize
-
+	void mainloop(be::core::window* w) override {
 		// timer
-		be::timer time;
+		be::core::timer time;
 		time.set_fps_target(60);
 		float t0 = 0.0f;
 
@@ -34,64 +87,28 @@ public:
 			time.begin_frame();
 			w->clear_screen(BE_COLOR_BLACK);
 
-			// update 
-			t0 += time.get();
-			if (t0 > 1.0f) {
-				t0 -= 1.0f;
-				BE_LOG("current framerate: " + std::to_string(1.0f / time.get()));
-			}
-			step(time.get());
+			// step
+			m_registry->message("step");
 
-			// begin draw
-			m_batch->clear();
-
-			// push objects
-			draw();
-
-			// draw batch
-			m_batch->draw(m_view);
+			// draw
+			m_renderer2d->draw();
 
 			// end frame
 			w->swap_buffers();
 			time.wait_for_frame();
 		}
-	}
-
-	void step(float delta) {
-
-	}
-
-	void draw() {
 
 	}
 
 private:
-	be::sprite_batch* m_batch;
-	glm::mat4 m_view;
+
+	be::object_registry* m_registry;
+	be::graphics2d::renderer2d* m_renderer2d;
 };
 
 int main(int argc, char** argv) {
 
-	//be::run_game<BeyondGame>(glm::uvec2(1280, 720), "Demo");
-	be::lua_script* script0 = new be::lua_script("Scripts/Demo.lua");
-	be::lua_script* script1 = new be::lua_script("Scripts/Demo.lua");
+	be::core::run_game<BeyondGame>(glm::uvec2(1280, 720), "Demo");
 
-	auto* state = be::lua_script::get_state();
-
-	lua_getglobal(state, script0->env());
-	lua_pushnumber(state, 5);
-	lua_setfield(state, -2, "value");
-	lua_pop(state, 1);
-
-	lua_getglobal(state, script1->env());
-	lua_pushnumber(state, 10);
-	lua_setfield(state, -2, "value");
-	lua_pop(state, 1);
-
-	script0->call("foo");
-	script1->call("foo");
-
-	delete script0;
-	delete script1;
 	return 0;
 }
