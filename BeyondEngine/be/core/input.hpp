@@ -1,6 +1,6 @@
 #ifndef BE_INPUT_HPP
 #define BE_INPUT_HPP
-#include "unordered_map"
+#include <unordered_map>
 
 namespace be {
 
@@ -31,6 +31,7 @@ namespace be {
 		"key_x",
 		"key_y",
 		"key_z",
+
 		"num_0",
 		"num_1",
 		"num_2",
@@ -41,22 +42,26 @@ namespace be {
 		"num_7",
 		"num_8",
 		"num_9",
-		"left_shift",
-		"right_shift",
-		"left_ctrl",
-		"right_ctrl",
-		"left_alt",
-		"right_alt",
-		"key_enter",
-		"key_escape",
+
 		"key_return",
+		"key_escape",
 		"key_backspace",
 		"key_tab",
 		"key_space",
+
+		"left_ctrl",
+		"left_shift",
+		"left_alt",
+
+		"right_ctrl",
+		"right_shift",
+		"right_alt",
+
 		"arrow_up",
 		"arrow_down",
 		"arrow_left",
 		"arrow_right",
+
 		"mouse_left",
 		"mouse_middle",
 		"mouse_right"
@@ -65,7 +70,6 @@ namespace be {
 	};
 
 	inline constexpr const char* __AXIS[] = {
-		"mouse_x",
 		"mouse_x",
 		"mouse_y",
 		"mouse_wheel"

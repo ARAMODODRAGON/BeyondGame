@@ -59,7 +59,7 @@ namespace be {
 			// enable blending
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+			
 
 			// print graphics card and opengl version
 			BE_LOG("Graphics card: " + std::string(reinterpret_cast<const char*>(glGetString(GL_RENDERER))));
@@ -92,12 +92,12 @@ namespace be {
 						if (e.key.repeat) break;
 
 						// letter on the keyboard
-						if (e.key.keysym.sym > 96 && e.key.keysym.sym < 123)
-							input::__set_button(e.key.keysym.sym - 97, e.key.state);
+						if (e.key.keysym.scancode >= SDL_SCANCODE_A && e.key.keysym.scancode <= SDL_SCANCODE_Z)
+							input::__set_button(e.key.keysym.scancode - SDL_SCANCODE_A, e.key.state);
 
 						// number on keyboard
-						else if (e.key.keysym.sym > 47 && e.key.keysym.sym < 58)
-							input::__set_button(e.key.keysym.sym - 48 + 26, e.key.state);
+						else if (e.key.keysym.scancode >= SDL_SCANCODE_1 && e.key.keysym.scancode <= SDL_SCANCODE_0)
+							input::__set_button(e.key.keysym.scancode - SDL_SCANCODE_1 + SDL_SCANCODE_Z - SDL_SCANCODE_A, e.key.state);
 						
 						// other
 						else {
@@ -118,6 +118,7 @@ namespace be {
 					}
 					case SDL_MOUSEMOTION:								// the mouse position
 					{
+						//static glm::vec2 lastposition(0.0f);
 						const glm::vec2 halfscreen(glm::vec2(m_screenSize) * 0.5f);
 						glm::vec2 position(e.motion.x, e.motion.y);
 						position -= halfscreen;
@@ -125,6 +126,7 @@ namespace be {
 						position.y = -position.y;
 						input::__set_axis("mouse_x", position.x);
 						input::__set_axis("mouse_y", position.y);
+						//lastposition = position;
 						break;
 					}
 					case SDL_MOUSEBUTTONDOWN: case SDL_MOUSEBUTTONUP:	// mouse buttons

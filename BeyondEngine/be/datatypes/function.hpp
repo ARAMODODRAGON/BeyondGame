@@ -1,0 +1,230 @@
+/*
+* MIT License
+*
+* Copyright (c) 2023 Domara Shlimon
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+
+#ifndef BOE_FUNCTION_HPP
+#define BOE_FUNCTION_HPP
+#include <tuple>
+#include <memory>
+#include <list>
+
+namespace be {
+
+	// template declaration 
+	template<typename _RetTy, typename... ArgsTy>
+	struct function;
+
+	namespace detail {
+
+		template<typename Sig>
+		struct func_sig;
+
+		template<typename RetTy, typename... ArgsTy>
+		struct func_sig<RetTy(*)(ArgsTy...)> {
+			using sig_t = RetTy(*)(ArgsTy...);
+			using ret_t = RetTy;
+			using class_ty = void;
+			using tuple_args = std::tuple<ArgsTy...>;
+			using simple_tuple_args = std::tuple<std::remove_cvref_t<ArgsTy>...>;
+		};
+
+		template<typename RetTy, typename ClassTy, typename... ArgsTy>
+		struct func_sig<RetTy(ClassTy::*)(ArgsTy...)> {
+			using sig_t = RetTy(ClassTy::*)(ArgsTy...);
+			using simple_t = RetTy(*)(ArgsTy...);
+			using ret_ty = RetTy;
+			using class_ty = ClassTy;
+			using tuple_args = std::tuple<ArgsTy...>;
+			using simple_tuple_args = std::tuple<std::remove_cvref_t<ArgsTy>...>;
+		};
+
+		template<typename Sig>
+		struct get_function;
+
+		template<typename Ret, typename... Args>
+		struct get_function<Ret(*)(Args...)> {
+			using type = function<Ret, Args...>;
+		};
+
+		template<typename Ret, typename... Args>
+		struct get_function<Ret(Args...)> {
+			using type = function<Ret, Args...>;
+		};
+
+		template<typename Ret, typename Class, typename... Args>
+		struct get_function<Ret(Class::*)(Args...)> {
+			using type = function<Ret, Args...>;
+		};
+
+		template<auto Fun>
+		using get_function_t = typename get_function<decltype(Fun)>::type;
+
+	}
+
+	// template definition
+	template<typename _RetTy, typename... ArgsTy>
+	struct function {
+
+		using returnty = _RetTy;
+		using funcsigty = returnty(*)(ArgsTy...);
+		using arguments = std::tuple<ArgsTy...>;
+
+		constexpr function(std::nullptr_t = nullptr)
+			: m_instance(nullptr), m_function(nullptr), m_invokeable(nullptr) { }
+
+		template<typename T>
+		function(T lambda)
+			: m_instance(nullptr), m_function(), m_invokeable(nullptr) {
+			bind(lambda);
+		}
+
+		operator bool() const {
+			return m_instance != nullptr || m_function != nullptr || m_invokeable.get() != nullptr;
+		}
+
+		bool operator==(const function& other) const {
+			if (m_instance)		 return this->m_instance == other.m_instance && this->m_memberbinding == other.m_memberbinding;
+			else if (m_function) return this->m_function == other.m_function;
+			else				 return this->m_invokeable.get() == other.m_invokeable.get();
+		}
+
+		bool operator!=(const function& other) const {
+			return !operator==(other);
+		}
+
+		void unbind() {
+			m_invokeable.reset();
+			m_instance = nullptr;
+			m_function = nullptr;
+			m_memberbinding = nullptr;
+		}
+
+		template<auto Function>
+		void bind() {
+			m_invokeable.reset();
+			m_instance = nullptr;
+			m_memberbinding = nullptr;
+			m_function = Function;
+		}
+
+		template<typename T> 
+		void bind(T lambda) {
+			m_instance = nullptr;
+			m_memberbinding = nullptr;
+			m_function = nullptr;
+			if constexpr (std::is_convertible_v<T, funcsigty>) // easily converted lambda
+				m_function = lambda;
+			else  // heap allocated invokable node
+				m_invokeable.reset(new invokeable<T>(lambda));
+		}
+
+		template<auto Member, typename ClassTy = typename detail::func_sig<decltype(Member)>::class_ty>
+		void bind(ClassTy* instance) {
+			m_invokeable.reset();
+			m_instance = instance;
+			m_function = nullptr;
+			m_memberbinding = [](void* ptr, ArgsTy... args) { // binding lambda
+				return (reinterpret_cast<ClassTy*>(ptr)->*Member)(args...);
+			};
+		}
+
+		returnty operator()(ArgsTy... args) const {
+			// invoke member function
+			if (m_instance)							return m_memberbinding(m_instance, args...);
+			// invoke non-member function
+			else if (m_function)					return m_function(args...);
+			// invoke pointer to invokeable
+			else if (m_invokeable.get() != nullptr)	return m_invokeable->invoke(args...);
+		}
+
+		void* instance() const {
+			return m_instance;
+		}
+
+	private:
+
+		struct _invokable {
+			virtual returnty invoke(ArgsTy...) = 0;
+		};
+		template<typename ObjectTy>
+		struct invokeable : _invokable {
+			ObjectTy node;
+			returnty invoke(ArgsTy&&... args) override {
+				node(args...);
+			}
+			invokeable(ObjectTy& object_) : node(object_) { }
+		};
+		template<typename ObjectTy>
+		struct invokeable<ObjectTy&> : _invokable {
+			ObjectTy& node;
+			returnty invoke(ArgsTy&&... args) override {
+				node(args...);
+			}
+			invokeable(ObjectTy& object_) : node(object_) { }
+		};
+		template<typename ObjectTy>
+		struct invokeable<ObjectTy*> : _invokable {
+			ObjectTy* node;
+			returnty invoke(ArgsTy&&... args) override {
+				(*node)(args...);
+			}
+			invokeable(ObjectTy* object_) : node(object_) { }
+		};
+
+		void* m_instance;
+		union {
+			returnty(*m_memberbinding)(void*, ArgsTy...);
+			funcsigty m_function;
+		};
+		std::shared_ptr<_invokable> m_invokeable;
+	};
+
+	template<auto Function, typename function = detail::get_function_t<Function>>
+	function make_function() {
+		function f;
+		f.bind<Function>();
+		return f;
+	}
+
+	template<auto Member, typename ClassTy, typename function = detail::get_function_t<Member>>
+	function make_function(ClassTy* instance) {
+		function f;
+		f.bind<Member>(instance);
+		return f;
+	}
+
+	template<auto Lambda, typename... ArgsHint, typename function = function<ArgsHint...>>
+	function make_function() {
+		function f;
+		f.bind<Lambda>();
+		return f;
+	}
+
+	template<typename... ArgsHint, typename function = function<ArgsHint...>, typename Lambda>
+	constexpr function make_function(Lambda lambda) {
+		return function(lambda);
+	}
+
+}
+
+#endif // !BOE_FUNCTION_HPP

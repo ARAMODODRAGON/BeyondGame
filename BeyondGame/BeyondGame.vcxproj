@@ -24,6 +24,7 @@
     <ProjectGuid>{b8d4e95d-6209-469d-ba93-2d77bbadb2bd}</ProjectGuid>
     <RootNamespace>BeyondGame</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Playground</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -72,8 +73,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)BeyondEngine;D:\GameDev\SDL include;D:\GameDev\glew;D:\GameDev\glm;D:\GameDev\rapidjson-1.1.0\include;D:\GameDev\lua-5.4.6\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Debug;D:\GameDev\SDL include;D:\GameDev\glew;D:\GameDev\lua-5.4.6;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)BeyondEngine;D:\GameDev\SDL include;D:\GameDev\glew;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Debug;D:\GameDev\SDL include;D:\GameDev\glew;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -101,7 +102,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>BeyondEngine.lib;SDL2.lib;SDL2main.lib;glew32.lib;glew32s.lib;opengl32.lib;lua54.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BeyondEngine.lib;SDL2.lib;SDL2main.lib;glew32.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -155,7 +156,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="game.cpp" />
+    <ClCompile Include="scenes\demo_scene.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="components.hpp" />
+    <ClInclude Include="game.hpp" />
+    <ClInclude Include="scene.hpp" />
+    <ClInclude Include="scenes\demo_scene.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

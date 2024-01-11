@@ -36,7 +36,7 @@ namespace be {
 	}
 
 	float input::axis(const char* cstr) {
-		return axis(index(cstr));
+		return axis(index(cstr) - __BUTTON_COUNT);
 	}
 
 	float input::axis(size_t index) {
@@ -51,16 +51,16 @@ namespace be {
 				_indexes.emplace(__BUTTONS[i], i);
 			}
 			for (size_t i = 0; i < __AXIS_COUNT; i++) {
-				_indexes.emplace(__BUTTONS[i], i + __BUTTON_COUNT);
+				_indexes.emplace(__AXIS[i], i + __BUTTON_COUNT);
 			}
 		}
 
 		for (size_t i = 0; i < __BUTTON_COUNT; i++) {
 			_buttons[i].changed = false;
 		}
-		for (size_t i = 0; i < __AXIS_COUNT; i++) {
-			_axis[i] = 0.0f;
-		}
+		//for (size_t i = 0; i < __AXIS_COUNT; i++) {
+		//	_axis[i] = 0.0f;
+		//}
 	}
 
 	void input::__set_button(const char* cstr, bool state) {
@@ -73,7 +73,7 @@ namespace be {
 	}
 
 	void input::__set_axis(const char* cstr, float a) {
-		__set_axis(index(cstr), a);
+		__set_axis(index(cstr) - __BUTTON_COUNT, a);
 	}
 
 	void input::__set_axis(size_t index, float a) {

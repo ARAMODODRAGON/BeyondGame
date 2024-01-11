@@ -1,5 +1,0 @@
-
-
-function callobjectfunction()
-    printvalue()
-end
